@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 100" role="img" aria-label="Regain Media">
+  <style>
+    .roof { stroke: #f4f1ea; }
+    .word { fill: #f4f1ea; }
+    @media (prefers-color-scheme: light) {
+      .roof { stroke: #16130e; }
+      .word { fill: #16130e; }
+    }
+  </style>
+  <path class="roof" d="M16 70 L50 34 L84 70" fill="none" stroke-width="9" stroke-linejoin="miter"/>
+  <path d="M28 86 L45 69 L55 79 L73 61" fill="none" stroke="#ff6b2c" stroke-width="9" stroke-linejoin="miter"/>
+  <polygon points="86,48 67.6,55 79,66.4" fill="#ff6b2c"/>
+  <text class="word" x="112" y="66" font-family="'Space Grotesk', 'Inter', sans-serif" font-size="38" font-weight="600" letter-spacing="1.5">REGAIN MEDIA</text>
+</svg>
