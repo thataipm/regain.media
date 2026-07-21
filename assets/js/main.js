@@ -224,7 +224,7 @@
     var notConfigured = !endpoint || endpoint.indexOf('YOUR_FORM_ID') !== -1;
 
     function mailtoFallback() {
-      window.location.href = 'mailto:growwithvny@gmail.com?subject=' +
+      window.location.href = 'mailto:hello@regain.media?subject=' +
         encodeURIComponent('Strategy call request from ' + (form.company.value || 'a roofing company')) +
         '&body=' + encodeURIComponent(
           'Name: ' + form.name.value + '\nCompany: ' + form.company.value +
