@@ -66,13 +66,18 @@
   .how p b { color: var(--ink); font-weight: 500; }
   form { display: flex; flex-direction: column; gap: 16px; }
   label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; display: block; }
-  input, textarea {
+  input, textarea, select {
     width: 100%; background: var(--bg-2); border: 1px solid var(--line);
     border-radius: 8px; padding: 13px 14px; color: var(--ink); font-family: var(--font-body);
     font-size: 15px; transition: border-color 0.2s;
   }
-  input:focus, textarea:focus { outline: none; border-color: var(--ember); }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--ember); }
   textarea { resize: vertical; min-height: 80px; }
+  select { appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8a294' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+  }
+  select option { background: var(--bg-2); color: var(--ink); }
   button {
     margin-top: 8px; font-family: var(--font-display); font-weight: 600; font-size: 16px;
     background: var(--ember); color: #140800; border: none; border-radius: 8px;
@@ -115,11 +120,11 @@
 
       <div class="how">
         <span class="num">1</span>
-        <p><b>You submit this form.</b> No waiting, no "we'll be in touch."</p>
+        <p><b>Fill this out as if you were one of your own leads.</b> Make up the details, storm damage, a leak, whatever. This is the exact form your leads would see.</p>
       </div>
       <div class="how">
         <span class="num">2</span>
-        <p><b>Our AI agent calls the number you gave.</b> When it asks, pretend you're a homeowner whose roof just got damaged, storm, leak, missing shingles, whatever. It'll respond exactly like it would to one of your real leads.</p>
+        <p><b>Our AI agent calls you back in seconds.</b> It already has everything you typed, so it won't ask you to repeat yourself, exactly like it wouldn't with a real lead.</p>
       </div>
       <div class="how">
         <span class="num">3</span>
@@ -132,7 +137,7 @@
           <input id="f-name" name="name" type="text" required placeholder="Full name">
         </div>
         <div>
-          <label for="f-company">Company</label>
+          <label for="f-company">Your company</label>
           <input id="f-company" name="company" type="text" required placeholder="Your company name">
         </div>
         <div>
@@ -140,13 +145,82 @@
           <input id="f-phone" name="phone" type="tel" required placeholder="+1 (___) ___-____">
         </div>
         <div>
-          <label for="f-email">Email (optional)</label>
+          <label for="f-email">Email</label>
           <input id="f-email" name="email" type="email" placeholder="you@company.com">
         </div>
+
+        <p class="fine" style="margin: 4px 0 -6px; color: var(--ink-2)">Now pretend you're a homeowner filling out one of your own lead forms:</p>
+
         <div>
-          <label for="f-message">Anything you want the agent to know? (optional)</label>
-          <textarea id="f-message" name="message" placeholder="e.g. we run a lot of Meta ads and our response time is slow"></textarea>
+          <label for="f-address">Property address (can be made up)</label>
+          <input id="f-address" name="property_address" type="text" required placeholder="123 Main St">
         </div>
+        <div>
+          <label for="f-homeowner">Are you the homeowner?</label>
+          <select id="f-homeowner" name="is_homeowner" required>
+            <option value="">Select one</option>
+            <option value="yes">Yes</option>
+            <option value="no">No, renting</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-jobtype">Job type</label>
+          <select id="f-jobtype" name="job_type" required>
+            <option value="">Select one</option>
+            <option value="repair">Repair</option>
+            <option value="full_replacement">Full replacement</option>
+            <option value="storm_insurance_claim">Storm / insurance claim</option>
+            <option value="not_sure">Not sure</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-roofage">Roof age</label>
+          <select id="f-roofage" name="roof_age" required>
+            <option value="">Select one</option>
+            <option value="0-5 years">0 to 5 years</option>
+            <option value="5-15 years">5 to 15 years</option>
+            <option value="15+ years">15+ years</option>
+            <option value="not sure">Not sure</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-damage">Damage type</label>
+          <select id="f-damage" name="damage_type" required>
+            <option value="">Select one</option>
+            <option value="storm">Storm</option>
+            <option value="hail">Hail</option>
+            <option value="wind">Wind</option>
+            <option value="age">Age</option>
+            <option value="leak">Leak</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-insurance">Insurance claim status</label>
+          <select id="f-insurance" name="insurance_status" required>
+            <option value="">Select one</option>
+            <option value="not_filed">Not filed</option>
+            <option value="filed">Filed</option>
+            <option value="approved">Approved</option>
+            <option value="denied">Denied</option>
+            <option value="paying_cash">Paying cash</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-timeline">Timeline</label>
+          <select id="f-timeline" name="timeline" required>
+            <option value="">Select one</option>
+            <option value="asap">ASAP</option>
+            <option value="30_days">Within 30 days</option>
+            <option value="60_plus_days">60+ days</option>
+            <option value="just_researching">Just researching</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-besttime">Best time to call (optional)</label>
+          <input id="f-besttime" name="best_time_to_call" type="text" placeholder="e.g. weekday afternoons">
+        </div>
+
         <button type="submit" id="submitBtn">Call me now</button>
         <p class="fine">By submitting, you agree to receive one automated call from Regain Media demonstrating this exact system. No spam, no follow-up sales calls unless you ask for one.</p>
         <p id="formNote"></p>
@@ -193,7 +267,14 @@
       company: form.company.value,
       phone: form.phone.value,
       email: form.email.value,
-      message: form.message.value
+      property_address: form.property_address.value,
+      is_homeowner: form.is_homeowner.value,
+      job_type: form.job_type.value,
+      roof_age: form.roof_age.value,
+      damage_type: form.damage_type.value,
+      insurance_status: form.insurance_status.value,
+      timeline: form.timeline.value,
+      best_time_to_call: form.best_time_to_call.value
     };
 
     fetch(WEBHOOK_URL, {
