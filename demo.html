@@ -114,9 +114,9 @@
   <div class="wrap">
 
     <div id="formState">
-      <span class="label">01 / Live Demo</span>
-      <h1>Fill this out.<br>Your phone rings <span>in seconds.</span></h1>
-      <p class="sub">This isn't a video or a mockup. It's the actual Speed-to-Lead agent we build for roofing companies, calling you live, the same way it would call one of their leads.</p>
+      <span class="label" id="label-main">01 / Live Demo</span>
+      <h1 id="h1-main">Fill this out.<br>Your phone rings <span>in seconds.</span></h1>
+      <p class="sub" id="sub-main">This isn't a video or a mockup. It's the actual Speed-to-Lead agent we build for roofing companies, calling you live, the same way it would call one of their leads.</p>
 
       <div class="how">
         <span class="num">1</span>
@@ -292,6 +292,38 @@
         submitBtn.removeAttribute('disabled');
       });
   });
+</script>
+
+<script>
+  // Personalization layer, purely additive: reads optional URL query params
+  // (?company=...&city=...&ad=...) used for per-prospect outreach links.
+  // If none are present, the page is 100% unchanged from the generic /demo experience.
+  (function personalizeDemo() {
+    var params = new URLSearchParams(window.location.search);
+    var company = params.get('company');
+    var city = params.get('city');
+    var ad = params.get('ad');
+
+    if (!company && !city && !ad) return; // generic visitor, do nothing
+
+    var h1 = document.getElementById('h1-main');
+    var sub = document.getElementById('sub-main');
+    var label = document.getElementById('label-main');
+    var companyField = document.getElementById('f-company');
+
+    if (company) {
+      h1.innerHTML = company + ', your phone rings <span>in seconds.</span>';
+      if (companyField) companyField.value = company;
+      if (label) label.textContent = '01 / Live Demo — for ' + company;
+    }
+
+    if (ad) {
+      var locationBit = city ? ' in ' + city : '';
+      sub.textContent = 'We noticed you\'re running "' + ad + '"' + locationBit + ' right now. Here\'s what happens ' +
+        'when one of those leads calls back instantly instead of waiting, this isn\'t a video or a mockup, it\'s the ' +
+        'actual Speed-to-Lead agent we build for roofing companies.';
+    }
+  })();
 </script>
 
 </body>
