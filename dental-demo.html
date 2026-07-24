@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Demo / AI Voice Agent for The Dental Studio</title>
+<meta name="description" content="Fill this out and get a live call from an AI voice agent, in your language, in seconds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0a08;
+    --bg-2: #12100c;
+    --bg-3: #181510;
+    --line: rgba(244, 241, 234, 0.10);
+    --line-strong: rgba(244, 241, 234, 0.22);
+    --ink: #f4f1ea;
+    --ink-2: #a8a294;
+    --ink-3: #6e695e;
+    --accent: #ff6b2c;
+    --accent-soft: rgba(255, 107, 44, 0.15);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  header.top { padding: 28px 0; border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; gap: 10px; }
+  header.top span { font-family: var(--font-display); font-weight: 600; letter-spacing: 0.02em; }
+  main { padding: 64px 0 96px; }
+  .label { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: block; }
+  h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 6vw, 48px); line-height: 1.08; letter-spacing: -0.01em; margin-bottom: 20px; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--ink-2); font-size: 17px; max-width: 52ch; margin-bottom: 40px; }
+  .how { display: flex; gap: 14px; padding: 16px 18px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 40px; align-items: flex-start; }
+  .how .num { font-family: var(--font-mono); font-size: 13px; color: var(--accent); border: 1px solid var(--accent-soft); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .how p { font-size: 14.5px; color: var(--ink-2); }
+  .how p b { color: var(--ink); font-weight: 500; }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; display: block; }
+  input, select { width: 100%; background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px; padding: 13px 14px; color: var(--ink); font-family: var(--font-body); font-size: 15px; transition: border-color 0.2s; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8a294' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  select option { background: var(--bg-2); color: var(--ink); }
+  button { margin-top: 8px; font-family: var(--font-display); font-weight: 600; font-size: 16px; background: var(--accent); color: #06140f; border: none; border-radius: 8px; padding: 16px 24px; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+  button:hover { background: #c84a12; transform: translateY(-1px); }
+  button:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .fine { font-size: 12.5px; color: var(--ink-3); margin-top: 14px; line-height: 1.6; }
+  #formNote { font-size: 14px; color: var(--ink-2); margin-top: 16px; min-height: 20px; }
+  .state { display: none; text-align: center; padding: 40px 24px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; }
+  .state.active { display: block; }
+  .state .ring { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--accent-soft); border-top-color: var(--accent); margin: 0 auto 20px; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .state h2 { font-family: var(--font-display); font-size: 22px; margin-bottom: 10px; }
+  .state p { color: var(--ink-2); font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span>THE DENTAL STUDIO &middot; AI VOICE DEMO</span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div id="formState">
+      <span class="label">Live Demo</span>
+      <h1>Fill this out.<br>Your phone rings <span>in seconds.</span></h1>
+      <p class="sub">This isn't a video. It's a live AI voice agent, speaking Marathi or Hindi, calling you back the same way it would call a patient who just enquired with The Dental Studio.</p>
+
+      <div class="how">
+        <span class="num">1</span>
+        <p><b>Fill this out as if you were a patient enquiring.</b> Pick any topic below.</p>
+      </div>
+      <div class="how">
+        <span class="num">2</span>
+        <p><b>The AI agent calls you back in seconds</b>, in the language you pick, already knowing why you're calling.</p>
+      </div>
+      <div class="how">
+        <span class="num">3</span>
+        <p><b>It offers to book you in</b> right there on the call.</p>
+      </div>
+
+      <form id="demoForm">
+        <div>
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" type="text" required placeholder="Full name">
+        </div>
+        <div>
+          <label for="f-phone">Phone number</label>
+          <input id="f-phone" name="phone" type="tel" required placeholder="+91 ​XXXXX XXXXX">
+        </div>
+        <div>
+          <label for="f-language">Preferred language for the call</label>
+          <select id="f-language" name="preferred_language" required>
+            <option value="">Select one</option>
+            <option value="marathi">Marathi</option>
+            <option value="hindi">Hindi</option>
+            <option value="english">English</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-topic">Reason for visit</label>
+          <select id="f-topic" name="topic" required>
+            <option value="">Select one</option>
+            <option value="checkup_cleaning">General check-up / cleaning</option>
+            <option value="tooth_pain">Tooth pain</option>
+            <option value="root_canal">Root canal</option>
+            <option value="implants">Dental implants</option>
+            <option value="aligners_braces">Aligners / braces</option>
+            <option value="whitening">Teeth whitening / smile design</option>
+            <option value="child_visit">Child's dental visit</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-besttime">Best time to call (optional)</label>
+          <input id="f-besttime" name="best_time_to_call" type="text" placeholder="e.g. evenings after 6pm">
+        </div>
+
+        <button type="submit" id="submitBtn">Call me now</button>
+        <p class="fine">By submitting, you agree to receive one automated demo call. No spam, no follow-up calls unless you ask for one.</p>
+        <p id="formNote"></p>
+      </form>
+    </div>
+
+    <div id="callingState" class="state">
+      <div class="ring"></div>
+      <h2>Your phone should be ringing.</h2>
+      <p>If it doesn't ring in the next 20-30 seconds, check the number you entered.</p>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // Points at the dental-dedicated backend (India_Pune_Expansion/02_Backend). Another
+  // niche gets its own separate Railway deployment and its own landing page — see
+  // NEW_NICHE_PLAYBOOK.md — not a shared URL.
+  var WEBHOOK_URL = 'https://speedtolead-india-production.up.railway.app/webhook/lead';
+
+  var form = document.getElementById('demoForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var note = document.getElementById('formNote');
+  var formState = document.getElementById('formState');
+  var callingState = document.getElementById('callingState');
+
+  function setNote(text, isError) {
+    note.textContent = text;
+    note.style.color = isError ? '#e08a5c' : '';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    submitBtn.setAttribute('disabled', 'true');
+    setNote('Placing your call...');
+
+    var payload = {
+      name: form.name.value,
+      phone: form.phone.value,
+      preferred_language: form.preferred_language.value,
+      topic: form.topic.value,
+      best_time_to_call: form.best_time_to_call.value
+    };
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('bad response');
+        formState.style.display = 'none';
+        callingState.classList.add('active');
+      })
+      .catch(function () {
+        setNote('Something went wrong. Trigger the call manually for now.', true);
+        submitBtn.removeAttribute('disabled');
+      });
+  });
+</script>
+
+</body>
+</html>
